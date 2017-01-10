@@ -107,3 +107,21 @@ from Movie, (select mID, avg(stars) as average
 where Movie.mID = T.mID
 order by average desc, title
 
+
+-- Question 9
+-- Find the names of all reviewers who have contributed three or more ratings. 
+-- (As an extra challenge, try writing the query without HAVING or without COUNT.) 
+select name
+from Reviewer, (select rID
+                from Rating
+                group by rID
+                having count(*) >= 3) T
+where T.rID = Reviewer.rID
+
+select name
+from Reviewer, (select distinct R1.rID
+                from Rating R1, Rating R2, Rating R3
+                where R1.rID = R2.rID and (R1.mID <> R2.mID or R1.ratingDate <> R2.ratingDate)
+                and R1.rID = R3.rID and (R1.mID <> R3.mID or R1.ratingDate <> R3.ratingDate)
+                and R3.rID = R2.rID and (R3.mID <> R2.mID or R3.ratingDate <> R2.ratingDate)) T
+where Reviewer.rID = T.rID
