@@ -1,5 +1,0 @@
--- Question 1
--- find the titles of all movies directed by steven spielberg
-select title
-from Movie
-where director='Steven Spielberg';
